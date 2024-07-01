@@ -12,21 +12,51 @@ CKnave = Symbol("C is a Knave")
 # Puzzle 0
 # A says "I am both a knight and a knave."
 knowledge0 = And(
-    # TODO
+    # A cannot be both
+    And(Or(AKnight, AKnave), Not(And(AKnight, AKnave))),
+
+    # A being knight implies he is both
+    Implication(AKnight, And(AKnight, AKnave))
 )
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
 knowledge1 = And(
-    # TODO
+    # A both knaves sentence
+    Implication(AKnight, And(AKnave, BKnave)),
+
+    # A tells lie
+    Implication(AKnave, Not(And(AKnave, BKnave))),
+
+    # A cannot be both
+    And(Or(AKnight, AKnave), Not(And(AKnight, AKnave))),
+
+    # B cannot be both
+    And(Or(BKnight, BKnave), Not(And(BKnight, BKnave))),
 )
 
 # Puzzle 2
 # A says "We are the same kind."
 # B says "We are of different kinds."
 knowledge2 = And(
-    # TODO
+    # both same kind true
+    Implication(AKnight, Or(And(AKnave, BKnave), And(AKnight, BKnight))),
+
+    # both same kind lie
+    Implication(AKnave, Not(Or(And(AKnave, BKnave), And(AKnight, BKnight)))),
+
+    # different kind
+    Implication(BKnight, Or(And(AKnight, BKnave), And(AKnave, BKnight))),
+
+    # different kind lie
+    Implication(BKnave, Not(Or(And(AKnight, BKnave), And(AKnave, BKnight)))),
+
+    # A cannot be both
+    And(Or(AKnight, AKnave), Not(And(AKnight, AKnave))),
+
+    # B cannot be both
+    And(Or(BKnight, BKnave), Not(And(BKnight, BKnave))),
 )
 
 # Puzzle 3
@@ -35,7 +65,41 @@ knowledge2 = And(
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    # TODO
+    # A cannot be both
+    And(Or(AKnight, AKnave), Not(And(AKnight, AKnave))),
+
+    # B cannot be both
+    And(Or(BKnight, BKnave), Not(And(BKnight, BKnave))),
+
+    # C cannot be both
+    And(Or(CKnight, CKnave), Not(And(CKnight, CKnave))),
+
+    # A Knight True
+    Implication(AKnight, And(
+        Or(AKnight, AKnave),
+        Not(And(AKnight, AKnave)),
+    )),
+
+    # A Knave Lie
+    Implication(AKnave, Not(And(
+        Or(AKnight, AKnave),
+        Not(And(AKnight, AKnave)),
+    ))),
+
+    # B Knight truth
+    Implication(BKnight, AKnave),
+    Implication(BKnight, CKnave),
+
+    # B knave lie
+    Implication(BKnave, Not(AKnave)),
+    Implication(BKnave, Not(CKnave)),
+
+    # C knight truth
+    Implication(CKnight, AKnight),
+
+    # C Knave lie
+    Implication(CKnave, Not(AKnight)),
+
 )
 
 
